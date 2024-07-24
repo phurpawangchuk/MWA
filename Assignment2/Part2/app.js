@@ -3,6 +3,9 @@ const app = express();
 require('dotenv').config();
 const path = require('path');
 
+const fs = require('fs');
+
+
 app.get('/', function (req, res) {
     res.status(200).sendFile(path.join(__dirname + "/index.html"));
 });
