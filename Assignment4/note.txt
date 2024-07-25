@@ -1,0 +1,9 @@
+
+➜  meanGames mongoexport --db schoolDB --collection students --out /Users/phurpawangchuk/Desktop/students.json --jsonArray --pretty
+2024-07-25T17:11:43.315-0500	connected to: mongodb://localhost/
+2024-07-25T17:11:43.322-0500	exported 3 records
+
+➜  meanGames mongoimport --db studentDB --collection games --jsonArray /Users/phurpawangchuk/Downloads/games.json
+2024-07-25T17:14:26.268-0500	using filename 'games' as collection
+2024-07-25T17:14:26.276-0500	connected to: mongodb://localhost/
+2024-07-25T17:14:26.413-0500	29 document(s) imported successfully. 0 document(s) failed to import.
