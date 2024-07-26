@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const studentController = require('../controller/controller');
+const studentController = require('../controller');
 
 router.route('/').get(studentController.getAllStudents);
 
