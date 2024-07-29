@@ -13,10 +13,10 @@ const checkTrailByIdWithCallBack = callBackify(function (locationId) {
 })
 
 const getOneTrailWithCallBack = callBackify(function (locationId, trailId) {
-    return Trail.findById({
+    return Trail.findOne({
         '_id': locationId,
         'trails._id': trailId
-    }).select('trails');
+    }, { 'trails.$': 1 });
 })
 
 const checkSubDocumentByIdWithCallBack = callBackify(function (locationId, trailId) {
@@ -227,7 +227,7 @@ const getOneTrail = function (req, res) {
             }
 
             // Retrieve the sub-document
-            getOneTrailWithCallBack(req.params.locationId, req.params.trailId, function (err, trail) {
+            getOneTrailWithCallBack(trail._id, req.params.trailId, function (err, trail) {
                 if (err) {
                     res.status(500).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
                     return;
