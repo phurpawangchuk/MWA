@@ -50,6 +50,13 @@ const getAllRecordLimit = function (req, res) {
     });
 }
 
+//Seearch my text
+// const findRecordWithCallBack = callBackify(function (search) {
+//     const db = dbconnection.get();
+//     const games = db.collection('games');
+//     return games.find({ title: { $regex: search } }).toArray();
+// });
+
 const getOneRecord = function (req, res) {
     const gameId = req.params.gameId;
     gamesCollection_getOneRecordWithCallBack(gameId, function (err, game) {

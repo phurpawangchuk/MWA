@@ -1,0 +1,249 @@
+[{
+	"_id": {
+		"$oid": "66a6d1dd53dbc9320fa67e5f"
+	},
+	"country": "USA",
+	"state": "California",
+	"city": "San Francisco",
+	"trails": [
+		{
+			"name": "Presidio Loop",
+			"distance": 10,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d79b9dcb7ed956fdfb17"
+			}
+		},
+		{
+			"name": "Twin Peaks",
+			"distance": 7.7,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d7cf9dcb7ed956fdfb1f"
+			}
+		},
+		{
+			"name": "Bernal Heights",
+			"distance": 2,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d7cf9dcb7ed956fdfb20"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d21553dbc9320fa67e63"
+	},
+	"country": "USA",
+	"state": "Colorado",
+	"city": "Denver",
+	"trails": [
+		{
+			"name": "Red Rocks Trail",
+			"distance": 6,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d8069dcb7ed956fdfb2c"
+			}
+		},
+		{
+			"name": "Green Mountain",
+			"distance": 9,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d8069dcb7ed956fdfb2d"
+			}
+		},
+		{
+			"name": "Mt. Falcon",
+			"distance": 8.2,
+			"difficulty": "Hard",
+			"_id": {
+				"$oid": "66a6d8069dcb7ed956fdfb2e"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d22c53dbc9320fa67e66"
+	},
+	"country": "USA",
+	"state": "Iowa",
+	"city": "Des Moines",
+	"trails": [
+		{
+			"name": "Gray's Lake Park Trail",
+			"distance": 2,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d83d9dcb7ed956fdfb3d"
+			}
+		},
+		{
+			"name": "Neal Smith Trail",
+			"distance": 26.2,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d83d9dcb7ed956fdfb3e"
+			}
+		},
+		{
+			"name": "Raccoon River Park Trail",
+			"distance": 3.2,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d83d9dcb7ed956fdfb3f"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d24553dbc9320fa67e69"
+	},
+	"country": "USA",
+	"state": "Iowa",
+	"city": "Fairfield",
+	"trails": [
+		{
+			"name": "Jefferson County Park Loop",
+			"distance": 6.5,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d8899dcb7ed956fdfb51"
+			}
+		},
+		{
+			"name": "Chautauqua Park Trail",
+			"distance": 2.5,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d8899dcb7ed956fdfb52"
+			}
+		},
+		{
+			"name": "Waterworks Park Trail",
+			"distance": 4,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d8899dcb7ed956fdfb53"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d2ebc91e3f0f60f57778"
+	},
+	"country": "China",
+	"state": "Hunan",
+	"city": "Zhangjiajie",
+	"trails": [
+		{
+			"name": "Tianmen Mountain Trail",
+			"distance": 7.5,
+			"difficulty": "Hard",
+			"_id": {
+				"$oid": "66a6d8cc9dcb7ed956fdfb5b"
+			}
+		},
+		{
+			"name": "Avatar Hallelujah Mountain Trail",
+			"distance": 4,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d8cc9dcb7ed956fdfb5c"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d3a0ca161b79ad9f7cd9"
+	},
+	"country": "Japan",
+	"state": "Kanagawa",
+	"city": "Hakone",
+	"trails": [
+		{
+			"name": "Hakone Hachiri Trail",
+			"distance": 8,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d9009dcb7ed956fdfb72"
+			}
+		},
+		{
+			"name": "Mount Kintoki Trail",
+			"distance": 4.5,
+			"difficulty": "Hard",
+			"_id": {
+				"$oid": "66a6d9009dcb7ed956fdfb73"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d48aca161b79ad9f7ce0"
+	},
+	"country": "Bhutan",
+	"state": "Paro",
+	"city": "Paro",
+	"trails": [
+		{
+			"name": "Tiger's Nest Monastery Trail",
+			"distance": 4,
+			"difficulty": "Hard",
+			"_id": {
+				"$oid": "66a6d9229dcb7ed956fdfb79"
+			}
+		},
+		{
+			"name": "Chele La Pass Trail",
+			"distance": 6,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d9229dcb7ed956fdfb7a"
+			}
+		}
+	],
+	"__v": 0
+},
+{
+	"_id": {
+		"$oid": "66a6d49cca161b79ad9f7ce2"
+	},
+	"country": "Bhutan",
+	"state": "Thimphu",
+	"city": "Thimphu",
+	"trails": [
+		{
+			"name": "Phajoding Monastery Trail",
+			"distance": 5,
+			"difficulty": "Moderate",
+			"_id": {
+				"$oid": "66a6d93b9dcb7ed956fdfb81"
+			}
+		},
+		{
+			"name": "Dochula Pass Trail",
+			"distance": 3,
+			"difficulty": "Easy",
+			"_id": {
+				"$oid": "66a6d93b9dcb7ed956fdfb82"
+			}
+		}
+	],
+	"__v": 0
+}]
+
