@@ -1,0 +1,20 @@
+<p>edit-trail works!</p>
+
+
+<p>{{trail.trails[0].name}}</p>
+<p>{{trail.trails[0].distance}}</p>
+<p>{{trail.trails[0].difficulty}}</p>
+
+{{ trail.trails | json}}
+
+{{name}}
+<form #trailForm="ngForm" (ngSubmit)="onSubmit(trailForm)">
+    <input type="text" name="name" id="name" [(ngModel)]="trail.trails[0].name"><br>
+    <input type="text" name="distance" id="distance" [(ngModel)]="trail.trails[0].distance"><br>
+    <input type="text" name="difficulty" id="difficulty" [(ngModel)]="trail.trails[0].difficulty">
+
+    <div>
+        <button class="class btn-btn" type="submit">Update</button>
+    </div>
+
+</form>

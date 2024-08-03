@@ -1,0 +1,19 @@
+{{ game | json }}
+<p>Title: <input type="checkbox" value={{game._id}} [ngModel]="title"> {{ game.title}}</p>
+<p> Year: {{ game.year}}</p>
+<p> Rate: {{ game.rate}}</p>
+<p> Price: {{ game.price}}</p>
+<p> minPlayer: {{ game.minPlayer}}</p>
+<p> maxPlayer: {{ game.maxPlayer}}</p>
+<p>minAGe : {{ game.minAge }}</p>
+<p>designers : {{ game.designers }}</p>
+
+<div *ngIf="publisherCount > 0">
+    <h1>Publisher</h1>
+    <p>{{ game.publisher.name }}</p>
+    <p>{{ game.publisher.location | json }}</p>
+    <p>{{ game.publisher.location.coordinates }}</p>
+</div>
+
+
+<button (click)="deleteGame(game._id)" class="btn btn-danger">Delete Game</button>

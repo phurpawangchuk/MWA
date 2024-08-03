@@ -1,0 +1,20 @@
+<p>games works!1</p>
+
+<table class="table table-striped">
+    <tr *ngFor="let game of games">
+        <!-- <a routerLink="/game"> {{game.title}}</a> -->
+        <td>
+            <a routerLink="/game/{{game._id}}"> {{game.title}} </a>
+        </td>
+        <td>
+            <a routerLink="/publishers/{{game._id}}"> {{game.publisher}} </a>
+        </td>
+        <td>
+            <a routerLink="/reviews/{{game._id}}">Reviews</a>
+        </td>
+        <td>
+            <a routerLink="/add-review/{{game._id}}">Add Review </a>
+        </td>
+        <!-- <a (click)="goToGame(game._id)"> {{game.title}}</a> -->
+    </tr>
+</table>
