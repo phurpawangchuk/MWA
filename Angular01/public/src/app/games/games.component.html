@@ -1,0 +1,29 @@
+<H1>Welcome to MEAN Games Application</H1>
+<header>
+    <nav class="nav">
+        <!-- <select name="" id="" (change)="onChange()">
+            <option value=""></option>
+        </select> -->
+    </nav>
+</header>
+
+<main>
+
+
+    <table class="table">
+        <tr>
+            <td>Title</td>
+            <td>Year</td>
+            <td>Rate</td>
+            <td>Price</td>
+            <td>Actioin</td>
+        </tr>
+        <tr *ngFor="let game of games" class="">
+            <td class="link" (click)="moreDetails(game._id);">{{ game.title}}</td>
+            <td>{{game.year}}</td>
+            price <td>{{game.rate}}</td>
+            <td><button class="btn-sm btn-primary nav-link" (click)="moreDetails(game._id)">More Details </button></td>
+        </tr>
+    </table>
+
+</main>

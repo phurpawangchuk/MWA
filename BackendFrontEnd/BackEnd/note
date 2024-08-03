@@ -1,0 +1,22 @@
+// npm i bcryptjs   //replacement of bcrypt
+
+
+// db.games.find({ "publisher.location.coordinates": { $near: { $geometry: { tyep: "point", coordinates: [6.190855155687126, 48.64625432886704] } } } });
+
+// db.games.find({ "publisher.location.coordinates": { $near: { $geometry: { tyep: "point", coordinates: [6.190855155687126, 48.64625432886704] }, $maxDistance: 1000000 } } });
+
+// db.games.find({ "publisher.location.coordinates": { $near: { $geometry: { tyep: "point", coordinates: [6.190855155687126, 48.64625432886704] }, $maxDistance: 1000000, $minDistance: 1000 } } }).count()
+
+
+// db.games.getIndexes();
+
+// //Geo Location search..neeed to create Index (2dsphere/3dsphere/flat etc) for that field
+// db.games.createIndex({ "publisher.location.coordinates": "2dsphere" });
+
+// /geometry/api / games ? lat = 123 && lng=123
+
+
+// //Angular CLI
+// npm install --g @angular/cli //helps to write angular code
+// ng new fisrt-app --skip-get=true --skip-tests=true --defaults=true --directory public
+//ng serve

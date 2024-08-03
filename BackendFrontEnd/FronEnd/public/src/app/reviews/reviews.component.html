@@ -1,0 +1,21 @@
+<p *ngIf="deleteClick">
+    <app-success-page></app-success-page>
+</p>
+<table class="table">
+    <tr>
+        <td>Title</td>
+        <td>Review</td>
+        <td>Rating</td>
+        <td>PostDate</td>
+        <td>Action</td>
+    </tr>
+    <tr *ngFor="let review of reviews">
+        <td>{{ review.title }}</td>
+        <td>{{ (review.review).substring(0, 50) }}</td>
+        <td>{{ review.rating }}</td>
+        <td>{{ review.postDate | date: "dd MMM yyyy" }}</td>
+        <td><button class="btn-sm btn-danger" (click)="delete(review._id)">
+                Delete</button></td>
+    </tr>
+
+</table>

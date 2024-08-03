@@ -1,0 +1,18 @@
+<p>template-with2-ways-form works!</p>
+<form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+
+    <div>
+        <label>
+            Username:
+            <input name="username" id="username" placeholder="Username" [(ngModel)]="user.username">
+        </label>
+    </div>
+    <div>
+        <label>
+            Password:
+            <input type="password" name="password" id="password" placeholder="Password" [(ngModel)]="password">
+        </label>
+    </div>
+
+    <button type="submit">Login</button>
+</form>

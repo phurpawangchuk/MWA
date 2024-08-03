@@ -1,0 +1,7 @@
+<p>parent works!</p>
+<p>Parent x : {{x}}</p>
+<p>Parent y : {{y}}</p>
+<p>Parent (x+y) : {{z}}</p>
+<p>Name : {{name}}</p>
+<!--  subscriber-->
+<app-child [interest]="x" [y]="y" (addEvent)="updateZ($event)" [name]="name"></app-child>

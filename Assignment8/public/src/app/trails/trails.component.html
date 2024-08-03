@@ -1,0 +1,12 @@
+<p>trails works!</p>
+
+<ul>
+    <li *ngFor="let trail of trails">
+        <a routerLink="/trail/{{trail._id}}">Country : {{trail.country}} <br>
+            State: {{trail.state}} <br>
+            City: {{trail.city}}<br>
+        </a>
+    </li>
+</ul>
+
+<!-- {{ trails | json}} -->

@@ -1,0 +1,18 @@
+<div *ngIf="game">
+    <h1> {{ game.title }}
+
+        <stars-rating [rating]="game.rate"></stars-rating>
+    </h1>
+
+    {{ game.year | date: "dd MMMM yyyy"}} <br>
+    {{ game.rate }}<br>
+    {{ game.price | currency:"USD" }}<br>
+    {{ game.minPlayers}}<br>
+    {{ game.minPlayers }}<br>
+
+    <button class="btn-sm btn-primary m-2" (click)="editGame(game._id)">Edit</button>
+    <button class="btn-sm btn-danger" (click)="deleteGame(game._id)">Delete</button>
+</div>
+
+
+{{ game | json}}

@@ -1,0 +1,21 @@
+<div class="form">
+    <h3>{{responseMsg}}</h3>
+    <form #trailForm="ngForm" (ngSubmit)="addTrail(trailForm)">
+        <div>
+            <input type="text" name="name" id="name" placeholder="Enter name" [(ngModel)]="trail.name" required>
+        </div>
+        <br>
+        <div>
+            <input type="number" name="distance" id="distance" placeholder="Enter distance" [(ngModel)]="trail.distance"
+                required min="2">
+        </div>
+        <br>
+        <div>
+            <input type="text" name="difficulty" id="difficulty" placeholder="Enter difficulty"
+                [(ngModel)]="trail.difficulty" required>
+        </div>
+        <br>
+
+        <button [disabled]="trailForm.invalid">Add Trail</button>
+    </form>
+</div>
