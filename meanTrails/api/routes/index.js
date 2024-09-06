@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const trailsRouter = require('./locationRoute');
-const usersRouter = require('./trailRoute');
+const trailsRouter = require('./trailsRoute');
+const usersRouter = require('./usersRoute');
 
 router.use("/trails", trailsRouter);
 router.use("/users", usersRouter);
