@@ -1,37 +1,25 @@
 const mongoose = require('mongoose');
-const Trail = mongoose.model('Trail');
-const { ObjectId } = require('mongodb');
-const { response } = require('express');
+const Trail = mongoose.model(process.env.TRAIL_MODEL_NAME);
 
+/*
 const callBackify = require('util').callbackify;
-
-const getTrailsWithCallBack = callBackify(function (locationId) {
-    return Trail.findById(locationId).select('trails');;
-})
 
 const checkTrailByIdWithCallBack = callBackify(function (locationId) {
     return Trail.findById(locationId);
 })
 
-
-const findTrailByIdWithCallBack = callBackify(function (locationId) {
-    return Trail.find(locationId);
-})
-
-
 const getOneTrailWithCallBack = callBackify(function (locationId, trailId) {
     return Trail.findOne({
         '_id': locationId,
         'trails._id': trailId
-    }, { 'trails.$': 1 });
-})
-
-const checkAndGetSubDocumentByIdWithCallBack = callBackify(function (mainDocumentIdId, subDocumentId) {
-    return Trail.findOne({
-        '_id': mainDocumentIdId,
-        'trails._id': subDocumentId
-    }, { 'trails.$': 1 });
-})
+    },
+        {
+            'country': 1,
+            'state': 1,
+            'city': 1,
+            'trails.$': 1
+        });
+});
 
 const deleteTrailWithCallBack = callBackify(function (locationId, trailId) {
     return Trail.updateOne(
@@ -40,263 +28,206 @@ const deleteTrailWithCallBack = callBackify(function (locationId, trailId) {
     );
 })
 
+
 const addNewTrailWithCallBack = callBackify(function (newTrail) {
-    // return Trail.updateOne(
-    //     { '_id': locationId },
-    //     { $push: { 'trails': newTrail } }
-    // );
     return newTrail.save();
 })
 
-// const fullUpdateTrailWithCallBack = callBackify(function (locationId, trailId, trailToUpdate) {
-//     return Trail.updateOne(
-//         { '_id': locationId, 'trails._id': trailId },
-//         { $set: { 'trails': trailToUpdate } }
-//     );
-// })
-
-const fullUpdateTrailWithCallBack = callBackify(function (trailToUpdate) {
-    return trailToUpdate.save();
+const fullUpdateTrailWithCallBack = callBackify(function (id, docId, trailToUpdate) {
+    return Trail.updateOne(
+        { '_id': id, 'trails._id': docId },
+        { $set: trailToUpdate },
+        { new: true });
 })
-
 const partialUpdateTrailWithCallBack = callBackify(function (trailToUpdate) {
-    // const partialUpdateTrailWithCallBack = callBackify(function (locationId, trailId, trailToUpdate) {
-    // const updateQuery = {};
-    // for (let [key, value] of Object.entries(trailToUpdate)) {
-    //     updateQuery[`trails.$.${key}`] = value;
-    // }
-
-    // return Trail.updateOne(
-    //     { '_id': locationId, 'trails._id': trailId },
-    //     { $set: updateQuery }
-    // );
-
     return trailToUpdate.save();
 })
+*/
+
+const response = { status: Number(process.env.DEFAULT_CODE), message: "" }
+
+const _setSuccessResponse = function (message) {
+    response.status = Number(process.env.SUCCESS_CODE);
+    response.message = message;
+}
+
+const _setErrorResponse = function (status, err) {
+    response.status = status | Number(process.env.INTERNAL_SERVER_ERROR_CODE);
+    response.message = err;
+}
 
 const _sendResponse = function (res, response) {
     res.status(response.status).json(response.message);
 }
 
-///////////////////////////////////////////
-// Validation
-
-const _validateObjectId = function (trailId, res) {
-    if (!ObjectId.isValid(trailId)) {
-        res.status(404).json({ message: process.env.INVALID_TRAIL_ID_MESSAGE });
-        return false;
-    }
-    return true;
-}
-
-///////////////////////////////////////////
-
-const getAllTrail = function (req, res) {
-
-    //validate id
-    if (!_validateObjectId(req.params.locationId, res)) return;
-
-    //retrieve sub-document
-    getTrailsWithCallBack(req.params.locationId, function (err, trail) {
-        if (err) {
-            res.status(500).json({ message: process.env.GET_FAILURE_MESSAGE });
-            return;
-        }
-        res.status(200).json(trail);
-    });
-}
-
-const deleteATrail = function (req, res) {
+const deleteTrail = function (req, res) {
     console.log("delete trail...");
 
-    const subTrailId = req.params.trailId;
-    const trailId = req.params.locationId;
-    //validate id
-    if (!_validateObjectId(req.params.locationId, res) || !_validateObjectId(subTrailId, res)) return;
+    Trail.findByIdAndDelete(req.params.locationId)
+        .then((success) => _setSuccessResponse("Successfully deleted"))
+        .catch((error) => _setErrorResponse(res, error))
+        .finally(() => _sendResponse(res, response));
 
-    //check main document id
-    checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
-        if (!trail) {
-            res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-            return;
-        }
-        deleteTrailWithCallBack(trailId, subTrailId, function (err, trail) {
-            if (err) {
-                res.status(500).json({ message: "Error encounterred to delete" });
-            }
-            res.status(200).json({ message: "Deleted" });
-        })
-    });
+    // const subTrailId = req.params.trailId;
+    //  checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
+    //     if (!trail) {
+    //         res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
+    //         return;
+    //     }
+    //     deleteTrailWithCallBack(trailId, subTrailId, function (err, trail) {
+    //         if (err) {
+    //             res.status(process.env.INTERNAL_SERVER_ERROR_CODE).json({ message: "Error encounterred to delete" });
+    //         }
+    //         res.status(process.env.SUCCESS_CODE).json({ message: "Deleted" });
+    //     })
+    // });
 }
 
-const addATrail = function (req, res) {
-    console.log("add trail...");
-    if (!_validateObjectId(req.params.locationId, res)) return;
+const addTrail = function (req, res) {
+    console.log("Add trail...");
+    Trail.findById((req.params.locationId))
+        .then((trail) => _addNewTrail(trail, req, res))
+        .then((success) => _setSuccessResponse({ message: process.env.ADD_SUCCESS_MESSAGE }))
+        .catch((error) => _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error))
+        .finally(() => _sendResponse(res, response));
 
-    //check existence of main document id 
-    checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
-        if (!trail) {
-            res.status(400).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-            return;
-        }
-        //add sub-document
-        _addNewTrail(trail, req, res);
-    });
+    // checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
+    //     if (!trail) {
+    //         res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
+    //         return;
+    //     }
+    //     _addNewTrail(trail, req, res);
+    // });
 }
 
 const _addNewTrail = function (trail, req, res) {
     const newTrail = {
         name: req.body.name,
         distance: req.body.distance,
-        difficulty: req.body.difficulty
+        difficulty: req.body.difficulty,
+        imageUrl: req.body.imageUrl
     };
     trail.trails.push(newTrail);
+    trail.save();
 
-    addNewTrailWithCallBack(trail, function (err, trail) {
-        if (err) {
-            res.status(500).json({ message: process.env.ADD_FAILURE_MESSAGE });
-            return;
-        }
-        res.status(200).json({ message: process.env.ADD_SUCCESS_MESSAGE });
-    });
+    // addNewTrailWithCallBack(trail, function (err, trail) {
+    //     if (err) {
+    //         res.status(process.env.INTERNAL_SERVER_ERROR_CODE).json({ message: process.env.ADD_FAILURE_MESSAGE });
+    //         return;
+    //     }
+    //     res.status(process.env.SUCCESS_CODE).json({ message: process.env.ADD_SUCCESS_MESSAGE });
+    // });
 }
 
 const getOneTrail = function (req, res) {
+    console.log("getOneTrail...");
 
-    //validate id
-    if (!_validateObjectId(req.params.locationId, res) || !_validateObjectId(req.params.trailId, res)) return;
+    const queryToFindTrail = { '_id': req.params.locationId, 'trails._id': req.params.trailId };
+    const projection = { 'country': 1, 'state': 1, 'city': 1, 'trails.$': 1 };
 
-    //check main document id
-    checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
-        if (!trail) {
-            res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-            return;
-        }
+    Trail.find(queryToFindTrail, projection)
+        .then((trail) => _setSuccessResponse(trail[0]))
+        .catch((error) => _setErrorResponse(error))
+        .finally(() => _sendResponse(res, response));
 
-        //check sub-document id
-        checkAndGetSubDocumentByIdWithCallBack(req.params.locationId, req.params.trailId, function (err, trail) {
-            if (!trail) {
-                res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-                return;
-            }
+    // getOneTrailWithCallBack(req.params.locationId, req.params.trailId, function (error, trail) {
+    //     if (error) {
+    //         response.status = process.env.INTERNAL_SERVER_ERROR_CODE;
+    //         response.message = error;
+    //     }
+    //     else {
+    //         response.status = process.env.SUCCESS_CODE;
+    //         response.message = trail;
+    //     }
+    //     _sendResponse(res, response);
+    // });
+}
 
-            // Retrieve the sub-document
-            getOneTrailWithCallBack(trail._id, req.params.trailId, function (err, trail) {
-                if (err) {
-                    res.status(500).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-                    return;
-                }
-                if (!trail) {
-                    res.status(404).json({ message: process.env.TRAIL_NOT_FOUND_MESSAGE });
-                    return;
-                }
-                res.status(200).json(trail);
-            });
-        });
-    });
+const _fullUpdateTrail = function (trail, subDocumentId, req) {
+    const trailToUpdate = trail.trails.filter((trail) => trail.id === subDocumentId);
+    trailToUpdate[0].name = req.body.name;
+    trailToUpdate[0].distance = req.body.distance;
+    trailToUpdate[0].difficulty = req.body.difficulty;
+    trailToUpdate[0].imageUrl = req.body.imageUrl;
+
+    trail.country = req.body.country;
+    trail.state = req.body.state;
+    trail.city = req.body.city;
+
+    trail.save();
 }
 
 const fullUpdateTrail = function (req, res) {
-    console.log("update trail...");
+    console.log("Full update trail...");
+    Trail.findById(req.params.locationId)
+        .then((trail) => _fullUpdateTrail(trail, req.params.trailId, req))
+        .then((response) => _setSuccessResponse({ 'message': process.env.UPDATE_SUCCESS_MESSAGE }))
+        .catch((error) => _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error))
+        .finally(() => _sendResponse(res, response));
 
-    let response = {
-        status: 402,
-        message: ''
-    }
-    //validate id
-    // if (!_validateObjectId(req.params.locationId, res) || !_validateObjectId(req.params.trailId, res)) return;
-
-    const mainDocumentId = req.params.locationId;
-    const subDocumentId = req.params.trailId;
-    //check sub-document trails and get sub-document by id
-    // getOneTrailWithCallBack(mainDocumentId, subDocumentId, function (err, trail) {
-    checkAndGetSubDocumentByIdWithCallBack(mainDocumentId, function (err, trail) {
-        if (err) {
-            response.status = 500;
-            response.message = process.env.GET_FAILURE_MESSAGE;
-        }
-        if (!trail) {
-            response.status = 404;
-            response.message = process.env.TRAIL_NOT_FOUND_MESSAGE;
-        } else {
-
-            console.log("aaa..." + trail);
-            trail = trail.trails.filter(trail => trail._id === subDocumentId);
-
-            console.log("subTrail..." + trail);
-
-            //update sub-document
-            trail.trails = req.body;
-
-            console.log("AAA bbb..." + trail);
-
-            // fullUpdateTrailWithCallBack(trail, function (err, updatedTrail) {
-            //     if (err) {
-            //         response.status = 500;
-            //         response.message = err;
-            //     } else {
-            //         response.status = 200;
-            //         response.message = updatedTrail;
-            //     }
-            //     console.log("saved  ..." + updatedTrail);
-            // });
-        }
-
-        _sendResponse(res, response);
-    });
-}
-
-const _fullUpdateTrail = function (trail, req, res) {
-
-    // trail.trails.name = req.body.name;
-    // trail.trails.distance = req.body.distance;
-    // trail.trails.difficulty = req.body.difficulty;
-
-    console.log("After full update trail..." + trail);
-
-    //fullUpdateTrailWithCallBack(trail._id, trailId, req.body, function (err, updatedTrail) {
-
-
+    // getOneTrailWithCallBack(mainDocumentId, subDocumentId, function (error, trail) {
+    //     if (error) {
+    //         _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error);
+    //     } else {
+    //         const updatedTrail = {
+    //             'trails.$.name': req.body.name,
+    //             'trails.$.distance': req.body.distance,
+    //             'trails.$.difficulty': req.body.difficulty,
+    //             'trails.$.imageUrl': req.body.imageUrl
+    //         };
+    //         fullUpdateTrailWithCallBack(mainDocumentId, subDocumentId, updatedTrail, function (err, updatedTrail) {
+    //             if (error) {
+    //                 _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error);
+    //             } else {
+    //                 _setSuccessResponse(process.env.UPDATE_SUCCESS_MESSAGE)
+    //             }
+    //             _sendResponse(res, response);
+    //         });
+    //     }
+    // });
 }
 
 const partialUpdateTrail = function (req, res) {
     console.log("partial update trail...");
 
-    //validate id
-    if (!_validateObjectId(req.params.locationId, res) || !_validateObjectId(req.params.trailId, res)) return;
+    Trail.findById(req.params.locationId)
+        .then((trail) => _partialUpdateTrail(trail, req.params.trailId, req))
+        .then(() => _setSuccessResponse({ message: process.env.UPDATE_SUCCESS_MESSAGE }))
+        .catch((error) => _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error))
+        .finally(() => _sendResponse(res, response));
 
-    //check main document id
-    checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
-        if (!trail) {
-            response.status = 404;
-            response.message = process.env.TRAIL_NOT_FOUND_MESSAGE;
-        }
-
-        const trailId = req.params.trailId;
-        _partialUpdateTrail(trail, trailId, req, res);
-    });
+    // checkTrailByIdWithCallBack(req.params.locationId, function (err, trail) {
+    //     if (!trail) {
+    //         response.status = 404;
+    //         response.message = process.env.TRAIL_NOT_FOUND_MESSAGE;
+    //     }
+    //     const trailId = req.params.trailId;
+    //     _partialUpdateTrail(trail, trailId, req, res);
+    // });
 }
 
-const _partialUpdateTrail = function (trail, trailId, req, res) {
-
+const _partialUpdateTrail = function (trail, trailId, req) {
     const trailToUpdate = trail.trails.filter((trail) => trail.id === trailId);
-
     if (req.body && req.body.name)
         trailToUpdate[0].name = req.body.name;
     if (req.body && req.body.distance)
         trailToUpdate[0].distance = req.body.distance;
     if (req.body && req.body.difficulty)
         trailToUpdate[0].difficulty = req.body.difficulty;
+    if (req.body && req.body.imageUrl)
+        trailToUpdate[0].imageUrl = req.body.imageUrl;
 
-    partialUpdateTrailWithCallBack(trail, function (err, trail) {
-        if (err) {
-            res.status(500).json({ message: process.env.UPDATE_FAILURE_MESSAGE + err });
-            return;
-        }
+    trail.save();
 
-        res.status(200).json({ message: process.env.UPDATE_SUCCESS_MESSAGE });
-    });
+    // partialUpdateTrailWithCallBack(trail, function (error, trail) {
+    //     if (error) {
+    //         _setErrorResponse(process.env.INTERNAL_SERVER_ERROR_CODE, error);
+    //         return;
+    //     }
+    //     _setSuccessResponse({ message: process.env.UPDATE_SUCCESS_MESSAGE });
+    //     _sendResponse(res, response);
+    // });
 }
 
-module.exports = { getAllTrail, deleteATrail, fullUpdateTrail, addATrail, getOneTrail, partialUpdateTrail };
+module.exports = { deleteTrail, fullUpdateTrail, addTrail, getOneTrail, partialUpdateTrail };
 

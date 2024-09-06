@@ -1,6 +1,7 @@
 const mongoosse = require('mongoose');
-
 const { callbackify } = require('util');
+require('../models/users');
+require('../models/trails');
 
 require('util').callbackify;
 const mongoose_disconnectCallBack = callbackify(mongoosse.disconnect);
